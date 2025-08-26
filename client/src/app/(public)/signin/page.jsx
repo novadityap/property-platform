@@ -21,19 +21,24 @@ import {
 import { useSigninMutation } from '@/services/authApi';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { TbLoader, TbExclamationCircle, TbBrandGoogle } from 'react-icons/tb';
 import useFormHandler from '@/hooks/useFormHandler';
 import useGoogleSignin from '@/hooks/useGoogleSignin';
+import { setToken, setCurrentUser } from '@/lib/features/authSlice';
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const handleGoogleSignin = useGoogleSignin();
   const { token } = useSelector(state => state.auth);
   const { form, handleSubmit, isLoading, error, isSuccess, message } =
     useFormHandler({
-      page: 'signin',
+      onSuccess: (result) => {
+        dispatch(setToken(result.data.token));
+        dispatch(setCurrentUser(result.data));
+      },
       mutation: useSigninMutation,
       formType: 'signin',
       defaultValues: {

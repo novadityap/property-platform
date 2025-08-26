@@ -38,6 +38,8 @@ export const searchPropertySchema = Joi.object({
   page: Joi.number().integer().positive().min(1).default(1),
   limit: Joi.number().integer().positive().min(1).max(100).default(10),
   q: Joi.string().allow('').optional(),
+  sortBy: Joi.string().default('createdAt'),
+  sortOrder: Joi.string().valid('asc', 'desc').default('desc'),
   type: Joi.string().valid('rent', 'sale').optional().allow(''),
   minPrice: Joi.number().integer().positive().min(0).optional(),
   maxPrice: Joi.number().integer().positive().min(0).optional(),
@@ -48,7 +50,6 @@ export const searchPropertySchema = Joi.object({
   offer: Joi.boolean().optional(),
   furnished: Joi.boolean().optional(),
   parking: Joi.boolean().optional(),
-  sortBy: Joi.string().valid('latest', 'oldest', 'price_low_to_high', 'price_high_to_low').default('latest'),
   source: Joi.string().valid('datatable').optional()
 });
 

@@ -125,28 +125,24 @@ const updateProfile = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   const query = validate(searchUserSchema, req.query);
-  const { page, limit, q } = query;
+  const { page, limit, q, sortBy, sortOrder } = query;
 
   const where = {
     NOT: { id: req.user.id },
-  };
-
-  if (q) {
-    where.OR = [
-      { username: { contains: q, mode: 'insensitive' } },
-      { email: { contains: q, mode: 'insensitive' } },
-      {
-        role: {
-          is: {
-            name: {
-              contains: q,
-              mode: 'insensitive',
+    ...(q && {
+      OR: [
+        { username: { contains: q, mode: 'insensitive' } },
+        { email: { contains: q, mode: 'insensitive' } },
+        {
+          role: {
+            is: {
+              name: { contains: q, mode: 'insensitive' },
             },
           },
         },
-      },
-    ];
-  }
+      ],
+    }),
+  };
 
   const [users, totalUsers] = await prisma.$transaction([
     prisma.user.findMany({
@@ -154,7 +150,7 @@ const search = async (req, res, next) => {
       include: {
         role: true,
       },
-      orderBy: [{ role: { name: 'asc' } }, { createdAt: 'desc' }],
+      orderBy: { [sortBy]: sortOrder },
       take: Number(limit),
       skip: (Number(page) - 1) * Number(limit),
     }),

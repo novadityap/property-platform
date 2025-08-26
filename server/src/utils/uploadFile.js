@@ -40,7 +40,7 @@ const uploadFile = (
 
     const form = formidable({ keepExtensions: true });
 
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (e, fields, files) => {
       let uploadedFiles = files?.[fieldname];
 
       if (isRequired && !uploadedFiles)

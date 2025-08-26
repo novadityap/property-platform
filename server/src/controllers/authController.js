@@ -339,9 +339,9 @@ const refreshToken = async (req, res, next) => {
 
   if (!storedToken) throw new ResponseError('Refresh token is invalid', 401);
 
-  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
-    if (err) {
-      if (err.name === 'TokenExpiredError')
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (e, decoded) => {
+    if (e) {
+      if (e.name === 'TokenExpiredError')
         throw new ResponseError('Refresh token has expired', 401);
 
       throw new ResponseError('Refresh token is invalid', 401);

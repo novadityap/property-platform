@@ -153,7 +153,6 @@ const PropertyFilter = ({ onChange }) => {
     offer: undefined,
     furnished: undefined,
     parking: undefined,
-    sortBy: 'latest',
   });
 
   useEffect(() => {
@@ -173,7 +172,6 @@ const PropertyFilter = ({ onChange }) => {
       offer: undefined,
       furnished: undefined,
       parking: undefined,
-      sortBy: 'latest',
     });
   };
 
@@ -181,9 +179,7 @@ const PropertyFilter = ({ onChange }) => {
     setFilters(prev => ({
       ...prev,
       [key]:
-        key === 'sortBy'
-          ? 'latest'
-          : typeof prev[key] === 'boolean'
+        typeof prev[key] === 'boolean'
           ? undefined
           : '',
     }));
@@ -200,15 +196,13 @@ const PropertyFilter = ({ onChange }) => {
     offer: 'Offer',
     furnished: 'Furnished',
     parking: 'Parking',
-    sortBy: 'Sort',
   };
 
   const hasActiveFilters = Object.entries(filters).some(
     ([key, val]) =>
       key !== 'q' &&
       val !== '' &&
-      val !== undefined &&
-      (key !== 'sortBy' || val !== 'latest')
+      val !== undefined
   );
 
   return (

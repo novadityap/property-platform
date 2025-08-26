@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import logger from '../utils/logger.js';
 
-const errorHandler = (err, req, res, next) => {
-  const { code = 500, message = 'Internal server Error', errors, stack } = err;
+const errorHandler = (e, req, res, next) => {
+  const { code = 500, message = 'Internal server Error', errors, stack } = e;
 
   if (process.env.NODE_ENV === 'development') {
     logger.log(code >= 500 ? 'error' : 'warn', message.toLowerCase(), {
@@ -15,8 +15,8 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  if (err instanceof jwt.JsonWebTokenError) {
-    if (err.name === 'TokenExpiredError') {
+  if (e instanceof jwt.JsonWebTokenError) {
+    if (e.name === 'TokenExpiredError') {
       return res.status(401).json({ code: 401, message: 'Token has expired' });
     }
 

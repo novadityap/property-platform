@@ -57,14 +57,13 @@ const search = async (req, res, next) => {
     furnished,
     parking,
     sortBy,
+    sortOrder,
     page,
     limit,
     source
   } = query;
 
-  const where = {
-    AND: [],
-  };
+  const where = { AND: [] };
 
   if (source === 'datatable' && req.user.role !== 'admin') {
     where.AND.push({ ownerId: req.user.id });
@@ -102,14 +101,12 @@ const search = async (req, res, next) => {
 
   if (minPrice || maxPrice) {
     const priceFilter = {};
-
     if (minPrice) {
       priceFilter.OR = [
         { regularPrice: { gte: Number(minPrice) } },
         { discountPrice: { gte: Number(minPrice) } },
       ];
     }
-
     if (maxPrice) {
       priceFilter.OR = [
         ...(priceFilter.OR || []),
@@ -117,7 +114,6 @@ const search = async (req, res, next) => {
         { discountPrice: { lte: Number(maxPrice) } },
       ];
     }
-
     where.AND.push(priceFilter);
   }
 
@@ -135,17 +131,6 @@ const search = async (req, res, next) => {
     where.AND.push(bathroomFilter);
   }
 
-  let orderBy = { createdAt: 'desc' };
-  if (sortBy === 'oldest') {
-    orderBy = { createdAt: 'asc' };
-  } else if (sortBy === 'latest') {
-    orderBy = { createdAt: 'desc' };
-  } else if (sortBy === 'price_low_to_high') {
-    orderBy = [{ regularPrice: 'asc' }, { discountPrice: 'asc' }];
-  } else if (sortBy === 'price_high_to_low') {
-    orderBy = [{ regularPrice: 'desc' }, { discountPrice: 'desc' }];
-  }
-
   const [properties, totalProperties] = await prisma.$transaction([
     prisma.property.findMany({
       where,
@@ -158,7 +143,7 @@ const search = async (req, res, next) => {
           },
         },
       },
-      orderBy,
+      orderBy: {[sortBy]: sortOrder},
       take: Number(limit),
       skip: (Number(page) - 1) * Number(limit),
     }),
@@ -193,6 +178,7 @@ const search = async (req, res, next) => {
     },
   });
 };
+
 
 const create = async (req, res, next) => {
   const { files, fields } = await uploadFile(req, {
