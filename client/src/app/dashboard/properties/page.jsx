@@ -28,6 +28,8 @@ const Property = () => {
   const columnsHelper = createColumnHelper();
   const columns = [
     columnsHelper.accessor('images', {
+      id: 'images',
+      enableSorting: false,
       header: 'Image',
       size: 150,
       cell: info => {
@@ -51,6 +53,7 @@ const Property = () => {
       },
     }),
     columnsHelper.accessor('name', {
+      id: 'name',
       header: 'Name',
       size: 200,
       cell: info => (
@@ -58,6 +61,7 @@ const Property = () => {
       ),
     }),
     columnsHelper.accessor('description', {
+      id: 'description',
       header: 'Description',
       size: 200,
       cell: info => (
@@ -65,6 +69,7 @@ const Property = () => {
       ),
     }),
     columnsHelper.accessor('address', {
+      id: 'address',
       header: 'Address',
       size: 200,
       cell: info => (
@@ -72,14 +77,17 @@ const Property = () => {
       ),
     }),
     columnsHelper.accessor('regularPrice', {
+      id: 'price',
       header: 'Price',
       size: 150,
     }),
     columnsHelper.accessor('discountPrice', {
+      id: 'discount',
       header: 'Discount',
       size: 150,
     }),
     columnsHelper.accessor('offer', {
+      id: 'offer',
       header: 'Offer',
       size: 60,
       cell: info => {
@@ -89,14 +97,17 @@ const Property = () => {
       },
     }),
     columnsHelper.accessor('bedroom', {
+      id: 'bedroom',
       header: 'Bedroom',
       size: 100,
     }),
     columnsHelper.accessor('bathroom', {
+      id: 'bathroom',
       header: 'Bathroom',
       size: 100,
     }),
     columnsHelper.accessor('parking', {
+      id: 'parking',
       header: 'Parking',
       size: 100,
       cell: info => {
@@ -106,6 +117,7 @@ const Property = () => {
       },
     }),
     columnsHelper.accessor('furnished', {
+      id: 'furnished',
       header: 'Furnished',
       size: 120,
       cell: info => {
@@ -115,6 +127,7 @@ const Property = () => {
       },
     }),
     columnsHelper.accessor('type', {
+      id: 'type',
       header: 'Type',
       size: 100,
     }),

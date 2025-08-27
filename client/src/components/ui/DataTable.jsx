@@ -83,17 +83,17 @@ const DataTable = ({
     isFetching: isItemsFetching,
   } = searchQuery(
     {
-    page: searchTerm ? 1 : currentPage,
-    limit,
-    q: searchTerm,
-    sortBy: sorting[0]?.id || 'createdAt',
-    sortOrder: sorting[0]?.desc ? 'desc' : 'asc',
-    ...(entityName === 'property' && { source: 'datatable' }),
-  }, 
-  {
+      page: searchTerm ? 1 : currentPage,
+      limit,
+      q: searchTerm,
+      sortBy: sorting[0]?.id || 'createdAt',
+      sortOrder: sorting[0]?.desc ? 'desc' : 'asc',
+      ...(entityName === 'property' && { source: 'datatable' }),
+    },
+    {
       refetchOnMountOrArgChange: true,
     }
-);
+  );
   const [removeMutate, { isLoading: isRemoveLoading }] = removeMutation();
   const mergedColumns = [
     columnsHelper.display({
@@ -103,7 +103,7 @@ const DataTable = ({
       cell: info =>
         searchTerm
           ? info.row.index + 1
-           : info.row.index + 1 + (currentPage - 1) * items?.meta?.pageSize,
+          : info.row.index + 1 + (currentPage - 1) * items?.meta?.pageSize,
     }),
     ...columns,
     columnsHelper.accessor('createdAt', {
@@ -190,12 +190,12 @@ const DataTable = ({
   });
 
   useEffect(() => {
-  if (items?.meta) {
-    if (currentPage > items.meta.totalPages) {
-      setcurrentPage(items.meta.totalPages || 1);
+    if (items?.meta) {
+      if (currentPage > items.meta.totalPages) {
+        setcurrentPage(items.meta.totalPages || 1);
+      }
     }
-  }
-}, [items, currentPage]);
+  }, [items, currentPage]);
 
   return (
     <>

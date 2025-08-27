@@ -73,16 +73,14 @@ const ProfileSkeleton = () => {
 const Profile = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.auth.currentUser);
-  const { data: user, isLoading: isUserLoading, isFetching: isUserFetching } =
-    useShowUserQuery(currentUser?.id);
   const {
-    form,
-    handleSubmit,
-    isLoading
-  } = useFormHandler({
+    data: user,
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+  } = useShowUserQuery(currentUser?.id);
+  const { form, handleSubmit, isLoading } = useFormHandler({
     file: { fieldName: 'avatar', isMultiple: false },
     isUpdate: true,
-    page: 'profile',
     params: [{ name: 'userId', value: currentUser?.id }],
     mutation: useUpdateProfileMutation,
     defaultValues: {
@@ -95,17 +93,17 @@ const Profile = () => {
       dispatch(updateCurrentUser(result.data));
     },
   });
-  
+
   useEffect(() => {
     if (user?.data) {
       form.reset({
         username: user.data.username,
         email: user.data.email,
-        password: ''
+        password: '',
       });
     }
   }, [user]);
-  
+
   if (isUserLoading || isUserFetching) return <ProfileSkeleton />;
 
   return (
@@ -124,7 +122,9 @@ const Profile = () => {
                   <AvatarImage
                     src={user?.data?.avatar}
                     fallback={
-                      <AvatarFallback>{currentUser?.username.charAt(0).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>
+                        {currentUser?.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
                     }
                   />
                 </Avatar>

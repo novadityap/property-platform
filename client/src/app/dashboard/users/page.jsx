@@ -27,6 +27,8 @@ const User = () => {
   const columnsHelper = createColumnHelper();
   const columns = [
     columnsHelper.accessor('avatar', {
+      id: 'avatar',
+      enableSorting: false,
       header: 'Avatar',
       size: 80,
       cell: info => (
@@ -57,7 +59,7 @@ const User = () => {
           return <Badge variant="default">User</Badge>;
         }
       },
-    })
+    }),
   ];
 
   return (
