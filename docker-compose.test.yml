@@ -4,7 +4,12 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    command: npm run test
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma reset --force &&
+        npm run test
+      "
     volumes:
       - ./server/.env:/app/.env
     env_file:
