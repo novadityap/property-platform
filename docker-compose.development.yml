@@ -1,53 +1,56 @@
 services:
   server:
-    image: novadityap/real-estate-app-server-dev
-    container_name: real-estate-app-server-dev
+    image: novadityap/property-platform-server-dev
+    container_name: property-platform-server-dev
+    command: npm run dev
     build:
       context: ./server
-      dockerfile: Dockerfile.development
+      dockerfile: Dockerfile
     env_file:
       - ./server/.env.development
     ports:
-      - "3000:3000"
+      - "8000:8000"
     depends_on:
       - postgres
     restart: always
     networks:
-      - real-estate-app-dev
+      - property-platform-dev
 
   client:
-    image: novadityap/real-estate-app-client-dev
-    container_name: real-estate-app-client-dev
+    image: novadityap/property-platform-client-dev
+    container_name: property-platform-client-dev
     build:
       context: ./client
-      dockerfile: Dockerfile.development
+      dockerfile: Dockerfile
+    command: npm run dev
     env_file:
       - ./client/.env.development
     ports:
-      - "5173:5173"
+      - "3000:3000"
     restart: always
     volumes:
       - ./client:/app
       - /app/node_modules
     networks:
-      - real-estate-app-dev
+      - property-platform-dev
 
   postgres:
-    container_name: real-estate-app-postgres-dev
+    container_name: property-platform-postgres-dev
     image: postgres:17-alpine
     ports:
       - "5432:5432"
     volumes:
-      - real-estate-postgres-data:/var/lib/postgresql/data
+      - property-platform-postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: aditya123
-      POSTGRES_DB: real_estate_app
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: property_platform_dev
     networks:
-      - real-estate-app-dev
+      - property-platform-dev
 
 volumes:
-  real-estate-postgres-data:
-    name: real-estate-postgres-data
+  property-platform-postgres-data:
+    name: property-platform-postgres-data
 networks:
-  real-estate-app-dev:
-    name: real-estate-app-dev
+  property-platform-dev:
+    name: property-platform-dev
