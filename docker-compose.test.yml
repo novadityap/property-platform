@@ -7,7 +7,7 @@ services:
     command: >
       sh -c "
         npx prisma generate &&
-        npx prisma reset --force &&
+        npx prisma migrate reset --force &&
         npm run test
       "
     volumes:
