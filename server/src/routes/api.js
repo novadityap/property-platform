@@ -33,20 +33,20 @@ apiRouter.get('/roles', authenticate, authorize(['admin']), roleController.list)
 apiRouter.post('/roles', authenticate, authorize(['admin']), roleController.create);
 apiRouter.get('/roles/search', authenticate, authorize(['admin']), roleController.search);
 apiRouter.get('/roles/:roleId', authenticate, authorize(['admin']), roleController.show);
-apiRouter.patch('/roles/:roleId', authenticate, authorize(['admin']), roleController.update);
+apiRouter.put('/roles/:roleId', authenticate, authorize(['admin']), roleController.update);
 apiRouter.delete('/roles/:roleId', authenticate, authorize(['admin']), roleController.remove);
 
 // User API
 apiRouter.get('/users/search', authenticate, authorize(['admin']), userController.search);
 apiRouter.post('/users', authenticate, authorize(['admin']), userController.create);
 apiRouter.get('/users/:userId', authenticate, authorize(['admin', 'user']), userController.show);
-apiRouter.patch('/users/:userId', authenticate, authorize(['admin']), userController.update);
-apiRouter.patch('/users/:userId/profile', authenticate, authorize(['admin', 'user']), userController.updateProfile);
+apiRouter.put('/users/:userId', authenticate, authorize(['admin']), userController.update);
+apiRouter.put('/users/:userId/profile', authenticate, authorize(['admin', 'user']), userController.updateProfile);
 apiRouter.delete('/users/:userId', authenticate, authorize(['admin', 'user']), userController.remove);
 
 // Property API
 apiRouter.post('/properties', authenticate, authorize(['admin', 'user']), propertyController.create);
-apiRouter.patch('/properties/:propertyId', authenticate, authorize(['admin', 'user']), propertyController.update);
+apiRouter.put('/properties/:propertyId', authenticate, authorize(['admin', 'user']), propertyController.update);
 apiRouter.delete('/properties/:propertyId', authenticate, authorize(['admin', 'user']), propertyController.remove);
 apiRouter.post('/properties/:propertyId/images', authenticate, authorize(['admin', 'user']), propertyController.uploadImage);
 apiRouter.delete('/properties/:propertyId/images', authenticate, authorize(['admin', 'user']), propertyController.removeImage);

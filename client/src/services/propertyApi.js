@@ -53,7 +53,7 @@ const propertyApi = createApi({
     updateProperty: builder.mutation({
       query: ({ data, propertyId }) => ({
         url: `/properties/${propertyId}`,
-        method: 'PATCH',
+        method: 'PUT',
         data,
         headers: { 'Content-Type': 'multipart/form-data' },
       }),

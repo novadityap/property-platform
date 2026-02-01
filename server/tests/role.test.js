@@ -253,7 +253,7 @@ describe('POST /api/roles', () => {
   });
 });
 
-describe('PATCH /api/roles/:roleId', () => {
+describe('PUT /api/roles/:roleId', () => {
   beforeEach(async () => {
     await createTestUser();
     await createAccessToken();
@@ -274,7 +274,7 @@ describe('PATCH /api/roles/:roleId', () => {
     await createAccessToken();
 
     const result = await request(app)
-      .patch(`/api/roles/${global.validUUID}`)
+      .put(`/api/roles/${global.validUUID}`)
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(403);
@@ -283,7 +283,7 @@ describe('PATCH /api/roles/:roleId', () => {
 
   it('should return an error if role id is invalid', async () => {
     const result = await request(app)
-      .patch('/api/roles/invalid-id')
+      .put('/api/roles/invalid-id')
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(400);
@@ -296,7 +296,7 @@ describe('PATCH /api/roles/:roleId', () => {
 
     const role = await getTestRole();
     const result = await request(app)
-      .patch(`/api/roles/${role.id}`)
+      .put(`/api/roles/${role.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`)
       .send({
         name: 'test1',
@@ -309,7 +309,7 @@ describe('PATCH /api/roles/:roleId', () => {
 
   it('should return an error if role is not found', async () => {
     const result = await request(app)
-      .patch(`/api/roles/${global.validUUID}`)
+      .put(`/api/roles/${global.validUUID}`)
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(404);
@@ -319,7 +319,7 @@ describe('PATCH /api/roles/:roleId', () => {
   it('should update role if input data is valid', async () => {
     const role = await getTestRole();
     const result = await request(app)
-      .patch(`/api/roles/${role.id}`)
+      .put(`/api/roles/${role.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`)
       .send({
         name: 'test1',

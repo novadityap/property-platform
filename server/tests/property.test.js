@@ -191,7 +191,7 @@ describe('POST /api/properties', () => {
   });
 });
 
-describe('PATCH /api/properties/:propertyId', () => {
+describe('PUT /api/properties/:propertyId', () => {
   beforeEach(async () => {
     await createTestUser();
     await createAccessToken();
@@ -228,7 +228,7 @@ describe('PATCH /api/properties/:propertyId', () => {
     await createAccessToken();
 
     const result = await request(app)
-      .patch(`/api/properties/${otherProperty.id}`)
+      .put(`/api/properties/${otherProperty.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(403);
@@ -237,7 +237,7 @@ describe('PATCH /api/properties/:propertyId', () => {
 
   it('should return an error if property id is invalid', async () => {
     const result = await request(app)
-      .patch('/api/properties/invalid-id')
+      .put('/api/properties/invalid-id')
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(400);
@@ -247,7 +247,7 @@ describe('PATCH /api/properties/:propertyId', () => {
 
   it('should return an error if property is not found', async () => {
     const result = await request(app)
-      .patch(`/api/properties/${global.validUUID}`)
+      .put(`/api/properties/${global.validUUID}`)
       .set('Authorization', `Bearer ${global.accessToken}`);
 
     expect(result.status).toBe(404);
@@ -257,7 +257,7 @@ describe('PATCH /api/properties/:propertyId', () => {
   it('should return an error if input data is invalid', async () => {
     const property = await getTestProperty();
     const result = await request(app)
-      .patch(`/api/properties/${property.id}`)
+      .put(`/api/properties/${property.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`)
       .set('Content-Type', 'multipart/form-data')
       .field('name', '')
@@ -272,7 +272,7 @@ describe('PATCH /api/properties/:propertyId', () => {
   it('should update property without changing images', async () => {
     const property = await getTestProperty();
     const result = await request(app)
-      .patch(`/api/properties/${property.id}`)
+      .put(`/api/properties/${property.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`)
       .set('Content-Type', 'multipart/form-data')
       .field('name', 'test1')
@@ -287,7 +287,7 @@ describe('PATCH /api/properties/:propertyId', () => {
   it('should update property with changing images', async () => {
     const property = await getTestProperty();
     const result = await request(app)
-      .patch(`/api/properties/${property.id}`)
+      .put(`/api/properties/${property.id}`)
       .set('Authorization', `Bearer ${global.accessToken}`)
       .set('Content-Type', 'multipart/form-data')
       .field('name', 'test1')
