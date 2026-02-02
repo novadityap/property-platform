@@ -1,6 +1,6 @@
-# Real Estate App
+# Property Sale Platform
 
-A full-stack real estate listing platform with features such as property listings, authentication, role-based access control, and an admin dashboard for managing properties and users.
+A full-stack property sale platform with features such as property listings, authentication, role-based access control, and an admin dashboard for managing properties and users.
 
 ---
 
@@ -30,8 +30,8 @@ A full-stack real estate listing platform with features such as property listing
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/novadityap/real-estate-app.git
-   cd real-estate-app
+   git clone https://github.com/novadityap/property-platform.git
+   cd property-platform
    ```
 
 2. **Prepare environment variables:**
@@ -51,13 +51,7 @@ A full-stack real estate listing platform with features such as property listing
    docker compose -f docker-compose.development.yml up -d --build
    ```
 
-3. **Seed the database:**
-
-   ```bash
-   docker compose -f docker-compose.development.yml exec server npm run seed
-   ```
-
-5. **Access URLs:**
+4. **Access URLs:**
    - Frontend: [http://localhost:3000](http://localhost:3000)
    - Backend API: [http://localhost:8000/api](http://localhost:8000/api)
 
