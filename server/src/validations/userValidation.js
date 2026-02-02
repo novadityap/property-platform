@@ -31,7 +31,7 @@ export const getUserSchema = Joi.string()
   });
 
 export const signupSchema = userSchema.fork(['roleId'], schema =>
-  schema.optional()
+  schema.optional(),
 );
 
 export const signinSchema = Joi.object({
@@ -44,14 +44,13 @@ export const verifyEmailSchema = Joi.object({
 });
 
 export const createUserSchema = userSchema;
-export const updateProfileSchema = userSchema.fork(
-  ['username', 'email', 'password', 'roleId'],
-  schema => schema.optional()
-);
-export const updateUserSchema = userSchema.fork(
-  ['username', 'email', 'password', 'roleId'],
-  schema => schema.optional()
-);
+export const updateProfileSchema = userSchema
+  .fork(['username', 'email', 'roleId'], schema => schema.optional())
+  .fork(['password'], schema => schema.optional().empty(['', null]).strip());
+
+export const updateUserSchema = userSchema
+  .fork(['username', 'email', 'roleId'], schema => schema.optional())
+  .fork(['password'], schema => schema.optional().empty(['', null]).strip());
 
 export const resetPasswordSchema = Joi.object({
   newPassword: Joi.string().min(6).required(),

@@ -2,7 +2,12 @@ services:
   server:
     image: novadityap/property-platform-server-dev
     container_name: property-platform-server-dev
-    command: npm run dev
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma migrate reset --force &&
+        npm run dev
+      "
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -13,6 +18,9 @@ services:
     depends_on:
       - postgres
     restart: always
+    volumes:
+      - ./server:/app           
+      - /app/node_modules  
     networks:
       - property-platform-dev
 

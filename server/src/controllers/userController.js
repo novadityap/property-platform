@@ -67,23 +67,33 @@ const updateProfile = async (req, res, next) => {
   });
 
   const errors = {};
-  const checkDuplicateConditions = [
-    { id: { not: user.id } },
-    ...(fields.username ? [{ username: fields.username }] : []),
-    ...(fields.email ? [{ email: fields.email }] : []),
-  ];
 
-  if (checkDuplicateConditions.length > 1) {
-    const existingUser = await prisma.user.findFirst({
+  if (fields.username) {
+    const exists = await prisma.user.findFirst({
       where: {
-        OR: checkDuplicateConditions,
+        username: fields.username,
+        id: { not: user.id },
       },
+      select: { id: true },
     });
 
-    if (existingUser?.username === fields.username)
+    if (exists) {
       errors.username = 'Username already in use';
-    if (existingUser?.email === fields.email)
+    }
+  }
+
+  if (fields.email) {
+    const exists = await prisma.user.findFirst({
+      where: {
+        email: fields.email,
+        id: { not: user.id },
+      },
+      select: { id: true },
+    });
+
+    if (exists) {
       errors.email = 'Email already in use';
+    }
   }
 
   if (Object.keys(errors).length > 0)
@@ -268,23 +278,32 @@ const update = async (req, res, next) => {
   });
 
   const errors = {};
-  const checkDuplicateConditions = [
-    { id: { not: user.id } },
-    ...(fields.username ? [{ username: fields.username }] : []),
-    ...(fields.email ? [{ email: fields.email }] : []),
-  ];
-
-  if (checkDuplicateConditions.length > 1) {
-    const existingUser = await prisma.user.findFirst({
+  if (fields.username) {
+    const exists = await prisma.user.findFirst({
       where: {
-        OR: checkDuplicateConditions,
+        username: fields.username,
+        id: { not: user.id },
       },
+      select: { id: true },
     });
 
-    if (existingUser?.username === fields.username)
+    if (exists) {
       errors.username = 'Username already in use';
-    if (existingUser?.email === fields.email)
+    }
+  }
+
+  if (fields.email) {
+    const exists = await prisma.user.findFirst({
+      where: {
+        email: fields.email,
+        id: { not: user.id },
+      },
+      select: { id: true },
+    });
+
+    if (exists) {
       errors.email = 'Email already in use';
+    }
   }
 
   if (fields.roleId) {
@@ -352,7 +371,7 @@ const remove = async (req, res, next) => {
     const propertyPublicIds = properties.flatMap(property =>
       property.images
         .map(image => extractPublicId(image))
-        .filter(publicId => publicId !== null)
+        .filter(publicId => publicId !== null),
     );
 
     if (propertyPublicIds.length > 0)

@@ -4,9 +4,12 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/index.js",
-    "dev": "NODE_ENV=development nodemon src/index.js",
-    "test": "NODE_ENV=development jest --detectOpenHandles --runInBand",
+    "start": "node src/index.js",
+    "dev": "nodemon --exitcrash --verbose -L src/index.js",
+    "test": "jest --detectOpenHandles --runInBand",
+    "seed": "node src/seeders/seed.js"
+  },
+  "prisma": {
     "seed": "node src/seeders/seed.js"
   },
   "jest": {

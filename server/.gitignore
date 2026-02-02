@@ -9,6 +9,7 @@ Thumbs.db
 .fleet/
 .zed/
 .nova/
+.vscode/
 
 # =========================
 # Environment & Secrets

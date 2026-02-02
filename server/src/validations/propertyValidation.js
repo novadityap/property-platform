@@ -18,8 +18,11 @@ const propertySchema = Joi.object({
         'number.less': 'Discount price must be less than regular price',
         'any.required': 'Discount price is required when offer is true',
       }),
-    otherwise: Joi.number().forbidden().messages({
-      'any.unknown': 'Discount price is not allowed when offer is false',
+    otherwise: Joi.alternatives().conditional(Joi.exist(), {
+      then: Joi.forbidden().messages({
+        'any.unknown': 'Discount price is not allowed when offer is false',
+      }),
+      otherwise: Joi.any().strip(),
     }),
   }),
   bathroom: Joi.number().integer().positive().required(),
@@ -50,7 +53,7 @@ export const searchPropertySchema = Joi.object({
   offer: Joi.boolean().optional(),
   furnished: Joi.boolean().optional(),
   parking: Joi.boolean().optional(),
-  source: Joi.string().valid('datatable').optional()
+  source: Joi.string().valid('datatable').optional(),
 });
 
 export const getPropertySchema = Joi.string()
@@ -72,5 +75,5 @@ export const removeImageSchema = Joi.object({
 export const createPropertySchema = propertySchema;
 export const updatePropertySchema = propertySchema.fork(
   Object.keys(propertySchema.describe().keys),
-  schema => schema.optional()
+  schema => schema.optional(),
 );

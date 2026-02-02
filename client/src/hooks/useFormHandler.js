@@ -20,10 +20,6 @@ const sanitizeNull = data => {
 const buildFormData = ({ data, fieldName, isMultiple, method }) => {
   const formData = new FormData();
 
-  if (method) {
-    formData.append('_method', method.toUpperCase());
-  }
-
   for (const key in data) {
     const value = data[key];
 
@@ -31,7 +27,7 @@ const buildFormData = ({ data, fieldName, isMultiple, method }) => {
       if (isMultiple === true && Array.isArray(value)) {
         for (let i = 0; i < value.length; i++) {
           if (value[i] instanceof File) {
-            formData.append(key + '[]', value[i]);
+            formData.append(key, value[i]);
           }
         }
       } else {

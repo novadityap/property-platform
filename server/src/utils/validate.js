@@ -1,5 +1,4 @@
 import ResponseError from './responseError.js';
-import logger from './logger.js';
 import formatError from './formatError.js';
 
 const validate = (schema, body) => {
